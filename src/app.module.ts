@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 // import { TypeOrmModule } from '@nestjs/typeorm';
 import { SkullController } from '@Api/skull/skull.controller';
 import { SkullService } from '@Api/skull/skull.service';
+import DatabaseService from '@Api/database/database.service';
 
 @Module({
   imports: [
@@ -17,6 +18,6 @@ import { SkullService } from '@Api/skull/skull.service';
   ],
 
   controllers: [SkullController],
-  providers: [SkullService],
+  providers: [SkullService, DatabaseService],
 })
 export class AppModule {}

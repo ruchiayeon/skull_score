@@ -11,16 +11,25 @@ import {
 import { CreateCatDto } from '@Api/skull/skull.entity';
 import { Response } from 'express';
 import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
+import DatabaseService from '@Api/database/database.service';
 
 @Controller('test')
 @ApiTags('test')
 export class SkullController {
+  constructor(private readonly databaseService: DatabaseService) {}
+
   @Get(':id')
   @ApiOperation({ summary: '전체 통계 데이터 받기' })
   @ApiResponse({ status: 200, description: '정상' })
   @ApiResponse({ status: 400, description: 'Validation Error' })
   @ApiResponse({ status: 403, description: 'Fobbiden Error' })
-  get(@Param('id') id: string): string {
+  async get(@Param('id') id: string) {
+    console.log(this.databaseService);
+    const data = await this.databaseService.query(
+      'SELECT name FROM result',
+      [],
+    );
+    console.log(JSON.stringify(data));
     return id;
   }
 
