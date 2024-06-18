@@ -1,38 +1,48 @@
-import {
-  Controller,
-  Get,
-  Post,
-  Put,
-  Delete,
-  Body,
-  Res,
-  Param,
-} from '@nestjs/common';
-import { CreateCatDto } from '@Api/skull/skull.entity';
-import { Response } from 'express';
+//Libary
+import { Controller, Get } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
+// import { CreateCatDto } from '@Api/skull/skull.entity';
+// import { Response } from 'express';
 import DatabaseService from '@Api/database/database.service';
 
-@Controller('test')
-@ApiTags('test')
+@Controller('game/rounds')
+@ApiTags('game/rounds')
 export class SkullController {
   constructor(private readonly databaseService: DatabaseService) {}
 
-  @Get(':id')
+  @Get()
   @ApiOperation({ summary: '전체 통계 데이터 받기' })
   @ApiResponse({ status: 200, description: '정상' })
   @ApiResponse({ status: 400, description: 'Validation Error' })
   @ApiResponse({ status: 403, description: 'Fobbiden Error' })
-  async get(@Param('id') id: string) {
-    console.log(this.databaseService);
-    const data = await this.databaseService.query(
-      'SELECT name FROM result',
+  async get() {
+    const dataSet = await this.databaseService.query(
+      'SELECT DISTINCT date from result ORDER BY date DESC',
       [],
     );
-    console.log(JSON.stringify(data));
-    return id;
-  }
 
+    await dataSet.map((data: { date: string }, index: number) => {
+      const splitDate = data.date.split(' ')[0];
+
+      //이전데이터와 동일하다면
+      //roundCoutn +1
+      if (index !== 0 && splitDate === dataSet[index - 1].gameDate) {
+        data['gameDate'] = splitDate;
+        data['round'] = dataSet[index - 1].round++;
+        return;
+      }
+
+      data['gameDate'] = splitDate;
+      data['round'] = 1;
+      return;
+    });
+
+    return { return: 0, data: dataSet };
+  }
+}
+
+/**
+ * 
   @Post()
   @ApiOperation({ summary: '전체 통계 데이터 받기' })
   @ApiResponse({ status: 201, description: '정상' })
@@ -86,4 +96,4 @@ export class SkullController {
         ),
       );
   }
-}
+ */
