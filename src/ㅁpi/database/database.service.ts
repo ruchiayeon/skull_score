@@ -35,7 +35,7 @@ export default class DatabaseService {
       .finally(() => {
         //상대경로로 하면 db파일을 dist로 옮기면서 내용이 유실됨
         return (this.db = new sqlite3.Database(
-          'src/public/skullking.db',
+          'src/Public/skullking.db',
           (err) => {
             if (err) {
               console.error('Error opening database:', err);
