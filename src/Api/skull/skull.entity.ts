@@ -6,7 +6,7 @@ import { ApiProperty } from '@nestjs/swagger';
 export class CreateRoundDto {
   @IsString()
   @ApiProperty({ description: '날짜', default: '', required: true })
-  readonly gameDate: string;
+  readonly game_date: string;
 
   @IsNumber()
   @ApiProperty({ description: '라운드', default: 1, required: true })
@@ -25,7 +25,7 @@ export class IGameRound {
 
 export class IGameRoundPlayerResult {
   player: string;
-  resultScore: number;
+  result_score: number;
   score: IRoundResult[];
 }
 

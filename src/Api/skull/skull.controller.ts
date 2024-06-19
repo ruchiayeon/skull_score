@@ -46,7 +46,7 @@ export class SkullController {
         date === splitDate && roundList.push(splitDate);
       });
 
-      return { gameDate: date, lastRound: roundList.length };
+      return { game_date: date, last_round: roundList.length };
     });
 
     return { return_code: 0, data: resultValue };
@@ -63,12 +63,12 @@ export class SkullController {
   ) {
     const gameDateList = await this.databaseService
       .query(
-        `SELECT DISTINCT date from result WHERE date LIKE '%${createCatDto.gameDate}%' ORDER BY date DESC`,
+        `SELECT DISTINCT date from result WHERE date LIKE '%${createCatDto.game_date}%' ORDER BY date DESC`,
         [],
       )
       .then((res) => {
         return res.map((data: IDate, index: number) => {
-          return { gameDate: data.date, round: index + 1 };
+          return { game_date: data.date, round: index + 1 };
         });
       });
 
@@ -118,12 +118,12 @@ export class SkullController {
   ) {
     const gameDateList = await this.databaseService
       .query(
-        `SELECT DISTINCT date from result WHERE date LIKE '%${createCatDto.gameDate}%' ORDER BY date DESC`,
+        `SELECT DISTINCT date from result WHERE date LIKE '%${createCatDto.game_date}%' ORDER BY date DESC`,
         [],
       )
       .then((res) => {
         return res.map((data: IDate, index: number) => {
-          return { gameDate: data.date, round: index + 1 };
+          return { game_date: data.date, round: index + 1 };
         });
       });
 
