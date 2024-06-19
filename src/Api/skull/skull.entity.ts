@@ -31,6 +31,7 @@ export class IGameRoundPlayerResult {
 
 export class IRoundResult {
   name?: string;
+  score: number;
   round: number;
   round_before: number;
   round_after: number;

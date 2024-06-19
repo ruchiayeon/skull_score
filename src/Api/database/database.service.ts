@@ -35,7 +35,7 @@ export default class DatabaseService {
       .finally(() => {
         //상대경로로 하면 db파일을 dist로 옮기면서 내용이 유실됨
         return (this.db = new sqlite3.Database(
-          'src/Public/skullking.db',
+          'src/public/skullking.db',
           (err) => {
             if (err) {
               console.error('Error opening database:', err);
@@ -55,7 +55,7 @@ export default class DatabaseService {
       if (err) {
         console.error('Error closing database:', err);
       } else {
-        const filePath = path.join('src', 'Public', 'skullking.db');
+        const filePath = path.join('src', 'public', 'skullking.db');
         fs.unlinkSync(filePath);
         console.log('Disconnected from the SQLite database.');
       }

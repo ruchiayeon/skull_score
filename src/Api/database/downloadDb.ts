@@ -6,7 +6,7 @@ import axios from 'axios';
 @Injectable()
 export class DownloadService {
   async downloadFile() {
-    const filePath = path.join('src', 'Public', 'skullking.db');
+    const filePath = path.join('src', 'public', 'skullking.db');
 
     try {
       console.log(filePath);

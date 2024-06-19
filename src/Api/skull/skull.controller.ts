@@ -82,7 +82,7 @@ export class SkullController {
 
     const gameRoundResult = await this.databaseService
       .query(
-        `SELECT * from result WHERE date LIKE '%${gameDateList[createCatDto.round - 1].gameDate}%' ORDER BY play_index ASC`,
+        `SELECT * from result WHERE date LIKE '%${gameDateList[createCatDto.round - 1].game_date}%' ORDER BY play_index ASC`,
         [],
       )
       .then((res) => {
@@ -136,7 +136,7 @@ export class SkullController {
 
     const gameRoundPlayer = await this.databaseService
       .query(
-        `SELECT * from result WHERE date LIKE '%${gameDateList[createCatDto.round - 1].gameDate}%' ORDER BY play_index ASC`,
+        `SELECT * from result WHERE date LIKE '%${gameDateList[createCatDto.round - 1].game_date}%' ORDER BY play_index ASC`,
         [],
       )
       .then((res) => {
@@ -151,7 +151,7 @@ export class SkullController {
 
     const gameRoundResult = await this.databaseService
       .query(
-        `SELECT * from round WHERE date LIKE '%${gameDateList[createCatDto.round - 1].gameDate}%' ORDER BY round ASC`,
+        `SELECT * from round WHERE date LIKE '%${gameDateList[createCatDto.round - 1].game_date}%' ORDER BY round ASC`,
         [],
       )
       .then((res) => {
@@ -160,10 +160,27 @@ export class SkullController {
 
     gameRoundPlayer.map((data: IGameRoundPlayerResult) => {
       gameRoundResult.map((result: IRoundResult) => {
+        const roundScore =
+          result.round_before === result.round_after
+            ? result.round_after === 0
+              ? result.round * 10
+              : result.round_after * 20
+            : result.round_before === 0
+              ? -result.round * 10
+              : Math.sign(result.round_before - result.round_after) === -1
+                ? (result.round_before - result.round_after) * 10
+                : (result.round_before - result.round_after) * -10;
+
+        const addBonus =
+          Math.sign(roundScore) !== -1
+            ? roundScore + result.round_bonus
+            : roundScore;
+
         return (
           result.name === data.player &&
           data.score.push({
             round: result.round,
+            score: addBonus,
             round_before: result.round_before,
             round_after: result.round_after,
             round_bonus: result.round_bonus,
