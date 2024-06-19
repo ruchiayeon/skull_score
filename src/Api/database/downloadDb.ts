@@ -6,8 +6,9 @@ import axios from 'axios';
 @Injectable()
 export class DownloadService {
   async downloadFile() {
+    const filePath = path.join('src', 'Public', 'skullking.db');
+
     try {
-      const filePath = path.join('src', 'Public', 'skullking.db');
       console.log(filePath);
 
       if (fs.existsSync(filePath)) {
@@ -28,6 +29,7 @@ export class DownloadService {
       return;
     } catch (error) {
       console.error('Error downloading file:', error.message);
+      fs.unlinkSync(filePath);
     }
   }
 }
