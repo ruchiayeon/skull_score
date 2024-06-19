@@ -1,22 +1,38 @@
 import { Entity } from 'typeorm';
-import { IsString, IsNumber, IsBoolean } from 'class-validator';
+import { IsString, IsNumber } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 
 @Entity()
-export class CreateCatDto {
+export class CreateRoundDto {
   @IsString()
-  @ApiProperty({ description: '이름', default: '', required: true })
-  readonly name: string;
+  @ApiProperty({ description: '날짜', default: '', required: true })
+  readonly gameDate: string;
 
   @IsNumber()
-  @ApiProperty({ description: '나이', default: 0, required: true })
-  readonly age: number;
+  @ApiProperty({ description: '라운드', default: 1, required: true })
+  readonly round: number;
+}
 
-  @IsBoolean()
-  @ApiProperty({
-    description: '성별 M(fasle) |  F(true)',
-    default: false,
-    required: true,
-  })
-  readonly gender: boolean;
+export class IDate {
+  date: string;
+}
+
+export class IGameRound {
+  rank: number;
+  name: string;
+  result_point: number;
+}
+
+export class IGameRoundPlayerResult {
+  player: string;
+  resultScore: number;
+  score: IRoundResult[];
+}
+
+export class IRoundResult {
+  name?: string;
+  round: number;
+  round_before: number;
+  round_after: number;
+  round_bonus: number;
 }
